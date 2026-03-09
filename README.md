@@ -1,7 +1,12 @@
 DeepFake Video Detection System
 
 An AI-powered DeepFake Detection system that analyzes uploaded videos and determines whether they are REAL or FAKE using a deep learning model based on the Xception architecture.
+
 The system extracts facial frames from videos, processes them using a trained CNN model, and displays the prediction through a Streamlit-based user interface.
+
+## Project Interface
+
+![DeepFake Detection UI](image.png)
 
 Project Overview
 
@@ -142,4 +147,12 @@ The trained model file cnn_model.h5 is not included in this repository because i
 To generate the model, run:
 
 python backend/train_xception.py
-
+Running the Project
+1 Clone the repository
+git clone https://github.com/YOUR_USERNAME/capstone-facedetect.git
+2 Navigate to the project folder
+cd capstone-facedetect
+3 Install dependencies
+pip install -r requirements.txt
+4 Run the application
+streamlit run frontend/main.py
