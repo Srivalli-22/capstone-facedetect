@@ -1,4 +1,6 @@
-dataset/ 
-training/ 
-model/ 
-*.mp4 
+dataset/
+Predict_videos/
+*.mp4
+*.log
+__pycache__/
+*.pyc

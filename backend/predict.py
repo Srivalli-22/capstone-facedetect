@@ -1,7 +1,7 @@
 import os
 import numpy as np
 from tensorflow.keras.models import load_model
-from inference.preprocess import extract_faces
+from backend.preprocess import extract_faces
 
 # ==============================
 # CONFIGURATION (MUST MATCH BACKEND)
@@ -12,8 +12,6 @@ THRESHOLD = 0.40
 
 MODEL_PATH = os.path.join(
     os.path.dirname(__file__),
-    "..",
-    "model",
     "cnn_model.h5"
 )
 

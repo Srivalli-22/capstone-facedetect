@@ -1,12 +1,13 @@
 import streamlit as st
-import tempfile
 import os
 import sys
 import numpy as np
 
-# Allow imports
+# Allow import from backend
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from inference.predict import predict_video
+
+from backend.app import analyze_video
+
 
 # ---------------- PAGE CONFIG ----------------
 st.set_page_config(
@@ -19,20 +20,17 @@ st.set_page_config(
 st.markdown("""
 <style>
 
-/* Background */
 .stApp {
     background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
     font-family: 'Segoe UI', sans-serif;
     color: #ffffff;
 }
 
-/* Layout Padding */
 .block-container {
     padding-left: 6rem;
     padding-right: 6rem;
 }
 
-/* Cards */
 .card {
     background: rgba(255,255,255,0.08);
     padding: 30px;
@@ -42,7 +40,6 @@ st.markdown("""
     box-shadow: 0px 8px 30px rgba(0,0,0,0.4);
 }
 
-/* Section Titles */
 .section-title {
     font-size: 28px;
     font-weight: 700;
@@ -50,7 +47,6 @@ st.markdown("""
     margin-bottom: 20px;
 }
 
-/* Header */
 .main-title {
     text-align: center;
     font-size: 64px;
@@ -68,7 +64,6 @@ st.markdown("""
     margin-bottom: 40px;
 }
 
-/* Uploaded file highlight */
 .file-box {
     background: rgba(0,229,255,0.15);
     padding: 12px 15px;
@@ -78,7 +73,6 @@ st.markdown("""
     margin-top: 10px;
 }
 
-/* Button */
 .stButton > button {
     background: linear-gradient(90deg, #00c6ff, #0072ff);
     color: white;
@@ -93,7 +87,6 @@ st.markdown("""
     transform: scale(1.03);
 }
 
-/* Result Box */
 .result-box {
     padding: 40px;
     border-radius: 14px;
@@ -111,7 +104,6 @@ st.markdown("""
     background: linear-gradient(90deg, #ff416c, #ff4b2b);
 }
 
-/* Confidence text */
 .confidence-text {
     font-size: 20px;
     font-weight: 600;
@@ -119,7 +111,6 @@ st.markdown("""
     margin-bottom: 10px;
 }
 
-/* 🔥 FINAL STRONG CHECKBOX FIX */
 [data-testid="stCheckbox"] label,
 [data-testid="stCheckbox"] label p,
 [data-testid="stCheckbox"] span,
@@ -129,12 +120,10 @@ st.markdown("""
     font-weight: 600 !important;
 }
 
-/* Remove any faded styling */
 [data-testid="stCheckbox"] * {
     opacity: 1 !important;
 }
 
-/* Technical Details Panel */
 .details-box {
     background: rgba(255,255,255,0.07);
     padding: 15px;
@@ -143,7 +132,6 @@ st.markdown("""
     color: #ffffff;
 }
 
-/* Footer */
 .footer {
     text-align: center;
     margin-top: 60px;
@@ -198,20 +186,14 @@ st.markdown('</div>', unsafe_allow_html=True)
 # ---------------- ANALYZE ----------------
 if uploaded_file is not None:
 
-    with tempfile.NamedTemporaryFile(delete=False, suffix=".mp4") as tmp:
-        tmp.write(uploaded_file.read())
-        video_path = tmp.name
-
     if st.button("🔍 Analyze Video", use_container_width=True):
 
         with st.spinner("Analyzing video frames..."):
-            label, confidence, details = predict_video(video_path)
+            label, confidence, details = analyze_video(uploaded_file)
 
         st.session_state["label"] = label
         st.session_state["confidence"] = confidence
         st.session_state["details"] = details
-
-    os.remove(video_path)
 
 # ---------------- RESULT ----------------
 if "label" in st.session_state:
