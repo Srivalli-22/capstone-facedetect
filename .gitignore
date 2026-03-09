@@ -4,3 +4,4 @@ Predict_videos/
 *.log
 __pycache__/
 *.pyc
+backend/cnn_model.h5
